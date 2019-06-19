@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+}
+
+group package_group
+version plugin_version
+
+sourceCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+    jcenter()
+//    maven {
+//        // spigot
+//        url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+//    }
+//    maven {
+//        // bungee
+//        url "https://oss.sonatype.org/content/groups/public/"
+//    }
+    maven {
+        // paper
+        url "https://papermc.io/repo/repository/maven-public/"
+    }
+
+    mavenLocal()
+}
+
+dependencies {
+    implementation group: "com.destroystokyo.paper", name: "paper-api", version: spigot_version
+//    compileOnly group: "com.destroystokyo.paper", name: "paper", version: spigot_version
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        expand([
+                version    : version,
+                name       : plugin_name,
+                description: plugin_description,
+                main_class : plugin_main_class,
+                buildDate  : new Date()
+        ])
+        include 'plugin.yml'
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'plugin.yml'
+    }
+}
